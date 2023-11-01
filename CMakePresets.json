@@ -12,6 +12,7 @@
       "hidden": true,
       "binaryDir": "${sourceDir}/out/build/${presetName}",
       "installDir": "${sourceDir}/out/install/${presetName}",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {}
     },
     {
@@ -43,7 +44,7 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
-      "toolchainFile": "D:\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake",
+      "generator": "Visual Studio 17 2022",
       "vendor": {
         "microsoft.com/VisualStudioSettings/CMake/1.0": {
           "hostOS": [
@@ -74,6 +75,10 @@
       "architecture": {
         "value": "x64",
         "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "/opt/rh/devtoolset-9/root/usr/bin/gcc",
+        "CMAKE_CXX_COMPILER": "/opt/rh/devtoolset-9/root/usr/bin/g++"
       },
       "condition": {
         "type": "equals",
@@ -109,6 +114,7 @@
       ]
     }
   ],
+
   "buildPresets": [
     {
       "name": "win-x64-debug",
