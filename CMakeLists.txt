@@ -11,5 +11,7 @@ enable_testing()
 
 find_package(GTest CONFIG REQUIRED) 
 
-add_executable(main main.cpp)
+aux_source_directory( . SRC)
+add_executable(main ${SRC})
 
+add_subdirectory(coroutine)

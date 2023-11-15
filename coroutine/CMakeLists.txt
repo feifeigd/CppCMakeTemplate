@@ -1,0 +1,9 @@
+
+message(STATUS "coroutine")
+
+add_executable(eagerFuture eagerFuture.cpp)
+#  add_executable(lazyGenerator lazyGenerator.cpp)
+
+add_executable(startJob startJob.cpp)
+add_executable(senderReceiver senderReceiver.cpp)
+ 
