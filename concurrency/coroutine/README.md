@@ -163,3 +163,11 @@ co_await promise.yield_value(expression);
 
 # 参考文章
 + https://zhuanlan.zhihu.com/p/569480618
+
+# VS 下 coroutine 内建函数的理解
+
++ bool __builtin_coro_done(_Ptr);
++ void __builtin_coro_resume(_Ptr);
++ void __builtin_coro_destroy(_Ptr);
++ _Frame_ptr = __builtin_coro_promise(_Prom_ptr, 0, true); _Prom_ptr 为 _Promise 的地址
++ void* __builtin_coro_noop();

@@ -14,4 +14,4 @@ find_package(GTest CONFIG REQUIRED)
 aux_source_directory( . SRC)
 add_executable(main ${SRC})
 
-add_subdirectory(coroutine)
+add_subdirectory(concurrency)
