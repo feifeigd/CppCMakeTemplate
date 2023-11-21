@@ -9,9 +9,11 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 enable_testing()
 
+find_package(cppcoro CONFIG REQUIRED)   # target_link_libraries(main PRIVATE cppcoro)
 find_package(GTest CONFIG REQUIRED) 
 
 aux_source_directory( . SRC)
 add_executable(main ${SRC})
 
 add_subdirectory(concurrency)
+add_subdirectory(concept)

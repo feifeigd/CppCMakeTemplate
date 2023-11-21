@@ -1,6 +1,10 @@
 
 message(STATUS "coroutine")
 
+
+add_executable(cppcoroTask cppcoroTask.cpp)
+target_link_libraries(cppcoroTask PRIVATE cppcoro)
+
 add_executable(eagerFuture eagerFuture.cpp)
 #  add_executable(lazyGenerator lazyGenerator.cpp)
 
