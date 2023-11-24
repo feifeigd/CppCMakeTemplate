@@ -1,6 +1,10 @@
 
 #include "Application.h"
-#include <csignal>
+#include <writer.h>
+#include <csignal>  // SIGINT, SIGTERM
+#include <iostream>
+
+using namespace std;
 
 Application::Application(asio::io_context& ioContext)
     :ioContext_(ioContext), signals_(ioContext_, SIGINT, SIGTERM)
@@ -9,10 +13,17 @@ Application::Application(asio::io_context& ioContext)
 }
 
 Application::~Application(){
+    Writer{} << "Application::~Application()\n";
 }
 
 void Application::run(){
     if(runCallback)runCallback();
+    Writer{} << "Application thread_id: " << this_thread::get_id() << "\n";
+    for (size_t i = 0; i < thread::hardware_concurrency(); i++)
+    {
+        post([this]{ioContext_.run(); });
+    }
+    ioContext_.run();
 }
 
 
@@ -29,7 +40,7 @@ void Application::setStopCallback(Callback&& callback){
     stopCallback = callback;
 }
 
-void Application::signalHandler(asio::error_code const& error, int signal){
+void Application::signalHandler(std::error_code const& error, int signal){
     if(error){
         stop();
         return;
