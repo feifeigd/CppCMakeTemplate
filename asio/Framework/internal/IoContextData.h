@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "../IoContext.h"
 
@@ -8,6 +8,7 @@ struct IoContext::data{
     data()
         : work_(asio::make_work_guard(context_))
     {
+        
     }
     
     asio::io_context context_;

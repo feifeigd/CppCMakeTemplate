@@ -14,5 +14,5 @@ public:
     IoContext& pickIoContext();
 
 private:
-    std::vector<IoContextThread> threads_;
+    std::vector<std::unique_ptr< IoContextThread>> threads_;
 };

@@ -25,3 +25,7 @@ void IoContext::stop(){
 void IoContext::post(std::function<void()>&& task){
     data_->context_.post(std::move(task));
 }
+
+bool IoContext::stopped()const{
+    return data_->context_.stopped();
+}
