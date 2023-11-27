@@ -11,7 +11,12 @@ public:
     void run();
     void stop();
 
+    void post(std::function<void()>&& task);
+    
 private:
+    friend class Application;
+    friend class TcpAcceptor;
+
     struct data;
     data* data_;    
 };
