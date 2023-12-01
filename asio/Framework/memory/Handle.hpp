@@ -129,7 +129,7 @@ template<typename DataType, int CHUNK_COUNT>
 class HandlePool{
 public:
     using HandleType = Handle<DataType>;
-    friend class HandleType;
+    // friend class HandleType;
 
     HandlePool(std::string&& desc)
         : name_(std::move(desc))
@@ -154,27 +154,20 @@ public:
 
     // 修改一下 magic，防止被误用
     bool reNew(HandleType& handle){
-        auto data = get(handle);
-        if (!data)
+        auto internalData = getInternalData(handle);
+        if (!internalData)
         {
             return false;
         }
-        return static_cast<Chunk::InternalData*>(data)->handle_ = handle.UpdateMagic();
+        return internalData->handle_ = handle.UpdateMagic();
     }
 
     DataType* get(HandleType const& handle){
-        if(!handle)
+        auto internalData = getInternalData(handle);
+        if(!internalData)
             return {};
-        
-        uint32_t pos = 0;
-        auto chunkId = getChunkIdAndPos(handle, pos);
-        if(chunkId >= chunks_.size()){
-            return {};
-        }
-        if(chunks_[chunkId]->internalData_[pos].handle_ != handle){
-            return {};
-        }
-        return &chunks_[chunkId]->internalData_[pos].data_;
+            
+        return &internalData->data_;
     }
 
     size_t totalCount()const{
@@ -236,6 +229,22 @@ private:
 
         InternalData internalData_[CHUNK_COUNT];
     };
+    
+    
+    Chunk::InternalData* getInternalData(HandleType const& handle){
+        if(!handle)
+            return {};
+        
+        uint32_t pos = 0;
+        auto chunkId = getChunkIdAndPos(handle, pos);
+        if(chunkId >= chunks_.size()){
+            return {};
+        }
+        if(chunks_[chunkId]->internalData_[pos].handle_ != handle){
+            return {};
+        }
+        return &chunks_[chunkId]->internalData_[pos];
+    }
 
     Chunk::InternalData* findPreUsedNode(HandleType const& handle){
         if(! handle){
@@ -352,13 +361,14 @@ DataType* HandlePool<DataType, CHUNK_COUNT>::acquire(HandleType& handle){
 
 template<typename DataType, int CHUNK_COUNT>
 void HandlePool<DataType, CHUNK_COUNT>::release(HandleType const& handle){
-    auto data = get(handle);
-    if (!data)
+    auto node = getInternalData(handle);
+    if (!node)
     {
         return;
     }
-    data->~DataType();
-    auto node = reinterpret_cast<Chunk::InternalData*>(data);
+    
+    auto& data = node->data_;
+    data.~DataType();
     node->handle_.reset();
     auto *const next = node->next_;
     if(--usedCount_ > 0){
