@@ -7,8 +7,7 @@ using namespace std;
 int main(){
 
     try{
-        asio::io_context ioContext;
-        Application app(ioContext);
+        Application app;
         app.setRunCallback([](){
             cout << "run" << endl;
         });
@@ -16,7 +15,6 @@ int main(){
             cout << "stop" << endl;
         });
         app.run();
-        ioContext.run();
 
     }catch(std::exception const& e){
         cerr << e.what() << endl;

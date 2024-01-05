@@ -1,3 +1,4 @@
+#include "Application.h"
 
 #include "Application.h"
 #include "internal/IoContextData.h"
@@ -29,10 +30,21 @@ struct Application::data{
 	void signalHandler(std::error_code const& error, int signal);
 };
 
+Application::Application()
+    : ioContextPtr_{make_unique<IoContext>()}
+    , ioContext_{*ioContextPtr_}
+{
+	data_ = new data(this);
+	
+	threadPool_.start(thread::hardware_concurrency());
+}
+
 Application::Application(IoContext& ioContext)
     : ioContext_{ioContext}
 {
     data_ = new data(this);
+    
+    threadPool_.start(thread::hardware_concurrency());
 }
 
 Application::~Application(){
@@ -46,7 +58,6 @@ void Application::run(){
     if(runCallback)runCallback();
     Writer{} << "Application running thread_id: " << this_thread::get_id() << "\n";
 
-    threadPool_.start(thread::hardware_concurrency());
     ioContext_.run();
     
     Writer{} << "Application stopped thread_id: " << this_thread::get_id() << "\n";
