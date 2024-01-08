@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "IoContextThreadPool.h"
+#include "base/WaitGroup.h"
 
 #include <functional>
 
@@ -36,4 +37,5 @@ private:
 	Callback runCallback;
 	Callback stopCallback;
 	IoContextThreadPool threadPool_;
+	WaitGroup waitGroup_;
 };
