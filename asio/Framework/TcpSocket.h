@@ -8,7 +8,7 @@ public:
     TcpSocket(IoContext& ioContext);
     ~TcpSocket();
 
-    TcpSocket(TcpSocket&& rhs);
+    TcpSocket(TcpSocket&& rhs)noexcept;
 private:
     friend class TcpAcceptor;
 

@@ -1,5 +1,5 @@
 #include "internal/IoContextData.h"
-
+#include <iostream>
 
 IoContext::IoContext()
     : data_(new data)
@@ -15,7 +15,17 @@ IoContext::~IoContext(){
 }
 
 void IoContext::run(){
-    data_->context_.run();
+    while (true)
+    {
+        try{
+            data_->context_.run();
+            break;  // 正常退出; 如果发生异常, 则重启循环
+        }catch(std::exception const& e){
+            std::cout << "IoContext::run() exception: " << e.what() << "\n";
+        }catch(...){
+            std::cout << "IoContext::run() unknown exception\n";
+        }
+    }    
 }
 
 void IoContext::stop(){

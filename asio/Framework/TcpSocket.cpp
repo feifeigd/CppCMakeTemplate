@@ -7,7 +7,7 @@ TcpSocket::TcpSocket(IoContext& ioContext)
     
 }
 
-TcpSocket::TcpSocket(TcpSocket&& rhs)
+TcpSocket::TcpSocket(TcpSocket&& rhs)noexcept
     : data_(rhs.data_)
 {
     rhs.data_ = nullptr;

@@ -1,4 +1,4 @@
-#include "TcpAcceptor.h"
+﻿#include "TcpAcceptor.h"
 
 #include "internal/IoContextData.h"
 #include "internal/TcpSocketData.h"
@@ -8,7 +8,7 @@
 
 struct TcpAcceptor::data{
     data(IoContext& ioContext, std::string const& ip, unsigned short port)
-        : acceptor_{ioContext.data_->context_, asio::ip::tcp::endpoint{asio::ip::make_address(ip), port}}
+        : acceptor_{ioContext.data_->context_, asio::ip::tcp::endpoint{asio::ip::address::from_string(ip), port}}
     {
         acceptor_.set_option(asio::ip::tcp::acceptor::reuse_address(true));
     }
