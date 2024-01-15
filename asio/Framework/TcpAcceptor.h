@@ -5,10 +5,15 @@
 
 #include <string>
 
+class Application;
+
 class TcpAcceptor final
 	: private noncopyable
 {
 public:
+	TcpAcceptor(Application& app, std::string const& ip, unsigned short port);
+
+	//TcpAcceptor(IoContext& ioContext, std::string const& ip, unsigned short port);
 	TcpAcceptor(IoContext& ioContext, IoContextThreadPool& ioContextProvider,  std::string const& ip, unsigned short port);
 	~TcpAcceptor();
 

@@ -1,5 +1,6 @@
-﻿#include "TcpAcceptor.h"
-
+﻿
+#include "Application.h"
+#include "TcpAcceptor.h"
 #include "internal/IoContextData.h"
 #include "internal/TcpSocketData.h"
 
@@ -15,6 +16,12 @@ struct TcpAcceptor::data{
 
     asio::ip::tcp::acceptor acceptor_;
 };
+
+TcpAcceptor::TcpAcceptor(Application& app, std::string const& ip, unsigned short port)
+    : TcpAcceptor(app.getIoContext(), app.getThreadPool(), ip, port)
+{
+
+}
 
 TcpAcceptor::TcpAcceptor(IoContext& ioContext, IoContextThreadPool& ioContextProvider, std::string const& ip, unsigned short port)
     : data_(new data(ioContext, ip, port))

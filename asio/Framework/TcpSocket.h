@@ -9,8 +9,12 @@ public:
     ~TcpSocket();
 
     TcpSocket(TcpSocket&& rhs)noexcept;
+
+    void dispatch(std::function<void()>&& task);
+
 private:
     friend class TcpAcceptor;
+    friend class TcpSession;
 
     struct data;
     data* data_;

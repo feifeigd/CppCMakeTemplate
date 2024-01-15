@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <functional>
+#include "TcpSocket.h"
 
 using SocketEstablishHandler = std::function<void(TcpSocket)>;   // 客户端连接上
 using SocketProcessingHandler = std::function<void(TcpSocket&)>;  // 握手阶段的处理
